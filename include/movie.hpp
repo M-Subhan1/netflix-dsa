@@ -1,23 +1,24 @@
 #ifndef MOVIE_H
 #define MOVIE_H
 #include <iostream>
+#include "SinglyLinkedList.hpp"
 
 struct Movie {
-    std::string *show_id, *type, *title, *director, *cast, *country, *date_added, *release_year, *duration, *listed_in, *description, *rating;
+    std::string *show_id, *type, *title, *director, *country, *date_added, *release_year, *duration, *description, *rating;
+    LinkedList<string*> *cast, *listed_in;
+    LinkedList<Movie*> edges;
 
-    Movies ** edges;
-    
     Movie() {
         show_id = new std::string(); 
+        cast = new LinkedList<string*>;
+        listed_in = new LinkedList<string*>;
         type = new std::string(); 
         title = new std::string(); 
         director = new std::string(); 
-        cast = new std::string(); 
         country = new std::string(); 
         date_added = new std::string(); 
         release_year = new std::string(); 
         duration = new std::string(); 
-        listed_in = new std::string(); 
         description = new std::string(); 
         rating = new std::string();
     }
@@ -35,20 +36,6 @@ struct Movie {
         delete listed_in;
         delete description;
         delete rating;
-    }
-};
-
-struct Movies {
-    const int size;
-    Movie** list;
-    Movies(int x): size(x) {
-        list = new Movie*[size];
-        for (int i = 0; i < size; i++) list[i] = NULL;
-    }
-
-    ~Movies() {
-        for (int i = 0; i < size; i++) if (list[i]) delete list[i];
-        if (list) delete[] list;
     }
 };
 

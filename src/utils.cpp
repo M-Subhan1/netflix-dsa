@@ -3,20 +3,43 @@
 #include"../include/movie.hpp"
 #include"../include/utils.hpp"
 #include"../include/trie.hpp"
+#include"../include/SinglyLinkedList.hpp"
 
 using namespace std;
 
-Movies* get_data (const char* file_name) {
+LinkedList<Movie*>* get_data (const char* file_name) {
     io::CSVReader<12, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("./data/netflix_titles.csv");
     in.read_header(io::ignore_extra_column, "show_id", "type", "title", "director", "cast", "country", "date_added", "release_year", "rating", "duration", "listed_in", "description");
-    Movies *movies = new Movies(8000); Trie<Movie> *trie = new Trie<Movie>();
+    LinkedList<Movie*> *movies = new LinkedList<Movie*>;
+    string cast, listed_in;
     Movie *temp;
 
-    for (int i = 0; i < movies->size; i++) { 
+    while (true) {
         temp = new Movie();
-        in.read_row(*temp->show_id, *temp->type, *temp->title, *temp->director, *temp->cast, *temp->country, *temp->date_added, *temp->release_year, *temp->rating, *temp->duration, *temp->listed_in, *temp->description);
-        movies->list[i] = temp;
+        if (!in.read_row(*temp->show_id, *temp->type, *temp->title, *temp->director, cast, *temp->country, *temp->date_added, *temp->release_year, *temp->rating, *temp->duration, listed_in, *temp->description)) 
+            break;
+
+        temp->listed_in = parse_multivalued_attr(listed_in);
+        temp->cast = parse_multivalued_attr(cast);
+        movies->insert(temp);
     }
 
     return movies;
+}
+
+LinkedList<std::string*>* parse_multivalued_attr(string str) {
+    LinkedList<std::string*> *list = new LinkedList<string*>;
+    std::string temp;  
+    for (int i = 0; i < str.length(); i++) {
+        if (str.at(i) == ',') {
+            list->insert(new string(temp.data()));
+            temp.assign("");
+        }
+        else if (temp.empty() && str.at(i) == ' ') continue;
+        else temp += str.at(i);
+    }
+
+    if (temp.length()) list->insert(new string(temp.data()));
+
+    return list;
 }

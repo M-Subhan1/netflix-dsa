@@ -8,17 +8,22 @@ using namespace std;
 
 int main () {
     Trie<Movie> trie;
-    Movies *movies = get_data("../data/netflix_titles.csv");
+    LinkedList<Movie*> *movies = get_data("../data/netflix_titles.csv");
 
-    // populating a trie
-    for (int i = 0; i < movies->size; i++)
-        trie.insert(*(movies->list[i]->title), movies->list[i]);
-
-
-    Movie *test = trie.search("Expedition China");
-    if (test) {
-        cout << *test->title << endl;
+    // populating the tree
+    ListNode<Movie*>* curr = movies->start;
+    while (curr && curr->data) 
+    { 
+        trie.insert(*(curr->data->title), curr->data);
+        curr = curr->next;
     }
+
+    Movie *test = trie.search("Evolution");
+    test->cast->printList();
 }
 
+// update avl tree
 // update trie search method
+// graph population
+// heap
+// UI

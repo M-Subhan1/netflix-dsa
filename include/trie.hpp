@@ -7,8 +7,6 @@
 
 using namespace std;
 
-#define SIZE_ALPHABET 256
-
 template <class T>class TrieNode {
 public:
     T *data;
