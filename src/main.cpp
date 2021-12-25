@@ -18,12 +18,9 @@ int main () {
         curr = curr->next;
     }
 
-    Movie *test = trie.search("Evolution");
-    test->cast->printList();
+    Movie *test = trie.search("Aziza");
+    cout << test << endl;
 }
 
-// update avl tree
-// update trie search method
 // graph population
-// heap
 // UI

@@ -4,6 +4,7 @@
 #include<iostream>
 #include"avl_tree.hpp"
 #include<bits/stdc++.h>
+#include"SinglyLinkedList.hpp"
 
 using namespace std;
 
@@ -11,7 +12,7 @@ template <class T>class TrieNode {
 public:
     T *data;
     bool isEndOfWord;
-    AVL<TrieNode<T>*> *children;
+    AVL<char, TrieNode<T>*> *children;
     TrieNode(T *data = NULL);
     ~TrieNode();
 };
@@ -25,13 +26,15 @@ public:
     T* search(string);
     void remove(string);
 private:
+    void search(TrieNode<T>*, LinkedList<T*>*);
+    void traverse(AVLNode<char, TrieNode<T>*> *curr, LinkedList<T*> *list);
     int (*hash)(char);
 };
 
 template <class T>TrieNode<T>::TrieNode(T *data) {
     this->data = data;
     isEndOfWord = false;
-    children = new AVL<TrieNode<T>*>;
+    children = new AVL<char, TrieNode<T>*>;
 }
 
 template <class T>TrieNode<T>::~TrieNode() {
@@ -48,6 +51,7 @@ template <class T>Trie<T>::~Trie() {
 
 template <class T>void Trie<T>::insert(string key, T *data) {
     TrieNode<T> *current = root;
+
     for (int i = 0; i < key.length(); i++) {
         if (current->children->search(key[i]) == NULL) {
             current->children->insert(key[i], new TrieNode<T>());
@@ -65,8 +69,27 @@ template <class T> T* Trie<T>::search(string key) {
         if (current->children->search(key[i]) == NULL) return NULL;
         current = current->children->search(key[i]);
     }
-    
+
+    LinkedList<T*> *list = new LinkedList<T*>;
+    search(current, list);
+    list->printList();
+
     return current->data;
+}
+
+template <class T> void Trie<T>::search(TrieNode<T> *node, LinkedList<T*> *list) {
+    if (!node) return;
+    if (node->isEndOfWord) list->insert(node->data);
+    traverse(node->children->root, list);
+}
+
+template <class T> void Trie<T>::traverse(AVLNode<char, TrieNode<T>*> *curr, LinkedList<T*> *list) {
+    if (curr) {
+        // traverse left, right and then print
+        traverse(curr->lchild, list);
+        search(curr->data, list);
+        traverse(curr->rchild, list);
+    }
 }
 
 template <class T>void Trie<T>::remove(string key) {

@@ -1,5 +1,7 @@
 {
   "files.associations": {
-    "list": "cpp"
+    "list": "cpp",
+    "string_view": "cpp",
+    "regex": "cpp"
   }
 }

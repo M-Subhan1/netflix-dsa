@@ -6,7 +6,6 @@
 struct Movie {
     std::string *show_id, *type, *title, *director, *country, *date_added, *release_year, *duration, *description, *rating;
     LinkedList<string*> *cast, *listed_in;
-    LinkedList<Movie*> edges;
 
     Movie() {
         show_id = new std::string(); 
@@ -24,18 +23,18 @@ struct Movie {
     }
 
     ~Movie() {
-        delete show_id;
-        delete type;
-        delete title;
-        delete director;
-        delete cast;
-        delete country;
-        delete date_added;
-        delete release_year;
-        delete duration;
-        delete listed_in;
-        delete description;
-        delete rating;
+        if (show_id) delete show_id;
+        if (type) delete type;
+        if (title) delete title;
+        if (director) delete director;
+        if (cast) delete cast;
+        if (country) delete country;
+        if (date_added) delete date_added;
+        if (release_year) delete release_year;
+        if (duration) delete duration;
+        if (listed_in) delete listed_in;
+        if (description) delete description;
+        if (rating) delete rating;
     }
 };
 
