@@ -4,6 +4,12 @@
 
 using namespace std;
 
+template <class K, class T> class GraphEdge {
+    int weight;
+    GraphNode<K, T> *v1;
+    GraphNode<K, T> *v2;
+};
+
 template <class K, class T> class GraphNode {
     T data;
     LinkedList<GraphNode<K,T>*> edges;
@@ -22,6 +28,7 @@ template <class K, class T>class Graph {
 template <class K, class T> void Graph<K, T>::insert(K key, T value) {
     GraphNode<K, T> *node = new GraphNode<K, T>(value);
     data->insert(key, node);
+    // update edges
 }
 
 template <class K, class T> void Graph<K, T>::remove_node(K key) {
@@ -41,6 +48,7 @@ template <class K, class T> int Graph<K, T>::get_weight(K key_node1, K key_node2
     node2 = data->search(key_node2);
 
     if (!node1 || !node2) return 0;
+    // get weight of edge between the two
     return 1;
 }
 
@@ -48,8 +56,10 @@ template <class K, class T> void Graph<K, T>::insert_edge(K key_node1, K key_nod
     GraphNode<K, T> *node1, *node2;
     node1 = data->search(key_node1);
     node2 = data->search(key_node2);
-
+    
     if (!node1 || !node2) return;
+
+    // add edge between the two
 }
 
 template <class K, class T> void Graph<K, T>::remove_edge(K key_node1, K key_node2) {
@@ -58,4 +68,6 @@ template <class K, class T> void Graph<K, T>::remove_edge(K key_node1, K key_nod
     node2 = data->search(key_node2);
 
     if (!node1 || !node2) return;
+
+    // remove edge between the two
 }

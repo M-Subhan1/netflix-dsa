@@ -9,16 +9,15 @@ using namespace std;
 int main () {
     Trie<Movie> trie;
     LinkedList<Movie*> *movies = get_data("../data/netflix_titles.csv");
-
     // populating the tree
     ListNode<Movie*>* curr = movies->start;
     while (curr && curr->data) 
     { 
-        trie.insert(*(curr->data->title), curr->data);
+        trie.insert(curr->data->title, curr->data);
         curr = curr->next;
     }
 
-    Movie *test = trie.search("Aziza");
+    Movie *test = trie.search("aziza");
     cout << test << endl;
 }
 

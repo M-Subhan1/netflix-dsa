@@ -51,6 +51,9 @@ template <class T>Trie<T>::~Trie() {
 
 template <class T>void Trie<T>::insert(string key, T *data) {
     TrieNode<T> *current = root;
+    std::for_each(key.begin(), key.end(), [](char & c) {
+        c = ::tolower(c);
+    }); 
 
     for (int i = 0; i < key.length(); i++) {
         if (current->children->search(key[i]) == NULL) {
@@ -65,6 +68,10 @@ template <class T>void Trie<T>::insert(string key, T *data) {
 
 template <class T> T* Trie<T>::search(string key) {
     TrieNode<T> *current = root;
+    std::for_each(key.begin(), key.end(), [](char & c) {
+        c = ::tolower(c);
+    }); 
+
     for (int i = 0; i < key.length(); i++) {
         if (current->children->search(key[i]) == NULL) return NULL;
         current = current->children->search(key[i]);

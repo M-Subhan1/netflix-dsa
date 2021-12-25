@@ -5,6 +5,6 @@
 #include"SinglyLinkedList.hpp"
 
 LinkedList<Movie*>* get_data (const char* file_name);
-LinkedList<std::string*>* parse_multivalued_attr(string string);
+LinkedList<std::string>* parse_multivalued_attr(string string);
 
 #endif

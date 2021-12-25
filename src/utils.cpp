@@ -16,7 +16,7 @@ LinkedList<Movie*>* get_data (const char* file_name) {
 
     while (true) {
         temp = new Movie();
-        if (!in.read_row(*temp->show_id, *temp->type, *temp->title, *temp->director, cast, *temp->country, *temp->date_added, *temp->release_year, *temp->rating, *temp->duration, listed_in, *temp->description)) 
+        if (!in.read_row(temp->show_id, temp->type, temp->title, temp->director, cast, temp->country, temp->date_added, temp->release_year, temp->rating, temp->duration, listed_in, temp->description)) 
             break;
 
         temp->listed_in = parse_multivalued_attr(listed_in);
@@ -27,19 +27,19 @@ LinkedList<Movie*>* get_data (const char* file_name) {
     return movies;
 }
 
-LinkedList<std::string*>* parse_multivalued_attr(string str) {
-    LinkedList<std::string*> *list = new LinkedList<string*>;
+LinkedList<std::string>* parse_multivalued_attr(string str) {
+    LinkedList<std::string> *list = new LinkedList<string>;
     std::string temp;  
     for (int i = 0; i < str.length(); i++) {
         if (str.at(i) == ',') {
-            list->insert(new string(temp.data()));
+            list->insert(temp);
             temp.assign("");
         }
         else if (temp.empty() && str.at(i) == ' ') continue;
         else temp += str.at(i);
     }
 
-    if (temp.length()) list->insert(new string(temp.data()));
+    if (temp.length()) list->insert(temp);
 
     return list;
 }

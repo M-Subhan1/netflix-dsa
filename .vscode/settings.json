@@ -2,6 +2,16 @@
   "files.associations": {
     "list": "cpp",
     "string_view": "cpp",
-    "regex": "cpp"
+    "regex": "cpp",
+    "iostream": "cpp",
+    "array": "cpp",
+    "deque": "cpp",
+    "forward_list": "cpp",
+    "string": "cpp",
+    "unordered_map": "cpp",
+    "unordered_set": "cpp",
+    "vector": "cpp",
+    "initializer_list": "cpp",
+    "valarray": "cpp"
   }
 }
