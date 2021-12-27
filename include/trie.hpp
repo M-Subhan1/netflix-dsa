@@ -10,10 +10,10 @@ using namespace std;
 
 template <class T>class TrieNode {
 public:
-    T *data;
+    T data;
     bool isEndOfWord;
     AVL<char, TrieNode<T>*> *children;
-    TrieNode(T *data = NULL);
+    TrieNode();
     ~TrieNode();
 };
 
@@ -22,23 +22,24 @@ public:
     TrieNode<T>* root;
     Trie();
     ~Trie();
-    void insert(string, T*);
-    T* search(string);
+    void insert(string, T);
+    T search(string);
     void remove(string);
+    void destroy(TrieNode<T>*);
 private:
-    void search(TrieNode<T>*, LinkedList<T*>*);
-    void traverse(AVLNode<char, TrieNode<T>*> *curr, LinkedList<T*> *list);
-    int (*hash)(char);
+    void search(TrieNode<T>*, LinkedList<T>*);
+    void destroyHelper(AVLNode<char, TrieNode<T>*> *);
+    void traverse(AVLNode<char, TrieNode<T>*> *curr, LinkedList<T> *list);
 };
 
-template <class T>TrieNode<T>::TrieNode(T *data) {
-    this->data = data;
+template <class T>TrieNode<T>::TrieNode() {
     isEndOfWord = false;
     children = new AVL<char, TrieNode<T>*>;
 }
 
 template <class T>TrieNode<T>::~TrieNode() {
-    delete children;
+    if (children) delete children;
+    children = NULL;
 }
 
 template <class T>Trie<T>::Trie() {
@@ -46,10 +47,10 @@ template <class T>Trie<T>::Trie() {
 }
 
 template <class T>Trie<T>::~Trie() {
-    delete root;
+    destroy(root);
 }
 
-template <class T>void Trie<T>::insert(string key, T *data) {
+template <class T>void Trie<T>::insert(string key, T data) {
     TrieNode<T> *current = root;
     std::for_each(key.begin(), key.end(), [](char & c) {
         c = ::tolower(c);
@@ -57,7 +58,7 @@ template <class T>void Trie<T>::insert(string key, T *data) {
 
     for (int i = 0; i < key.length(); i++) {
         if (current->children->search(key[i]) == NULL) {
-            current->children->insert(key[i], new TrieNode<T>());
+            current->children->insert(key[i], new TrieNode<T>);
         }
         
         current = current->children->search(key[i]);
@@ -66,7 +67,7 @@ template <class T>void Trie<T>::insert(string key, T *data) {
     current->data = data;
 }
 
-template <class T> T* Trie<T>::search(string key) {
+template <class T> T Trie<T>::search(string key) {
     TrieNode<T> *current = root;
     std::for_each(key.begin(), key.end(), [](char & c) {
         c = ::tolower(c);
@@ -77,20 +78,36 @@ template <class T> T* Trie<T>::search(string key) {
         current = current->children->search(key[i]);
     }
 
-    LinkedList<T*> *list = new LinkedList<T*>;
+    LinkedList<T> *list = new LinkedList<T>;
     search(current, list);
     list->printList();
+    delete list;
 
     return current->data;
 }
 
-template <class T> void Trie<T>::search(TrieNode<T> *node, LinkedList<T*> *list) {
+template <class T> void Trie<T>::search(TrieNode<T> *node, LinkedList<T> *list) {
     if (!node) return;
     if (node->isEndOfWord) list->insert(node->data);
     traverse(node->children->root, list);
 }
 
-template <class T> void Trie<T>::traverse(AVLNode<char, TrieNode<T>*> *curr, LinkedList<T*> *list) {
+template <class T> void Trie<T>::destroy(TrieNode<T> *node) {
+    if (node) {
+        destroyHelper(node->children->root);
+        delete node;
+    }
+}
+
+template <class T> void Trie<T>::destroyHelper(AVLNode<char, TrieNode<T>*> *node) {
+    if (node) {
+        destroyHelper(node->lchild);
+        destroyHelper(node->rchild);
+        destroy(node->data);
+    }
+}
+
+template <class T> void Trie<T>::traverse(AVLNode<char, TrieNode<T>*> *curr, LinkedList<T> *list) {
     if (curr) {
         // traverse left, right and then print
         traverse(curr->lchild, list);
