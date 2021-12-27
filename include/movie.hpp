@@ -8,8 +8,8 @@ struct Movie {
     LinkedList<string> *cast, *listed_in;
 
     Movie() {
-        cast = new LinkedList<string>;
-        listed_in = new LinkedList<string>;
+        cast = NULL;
+        listed_in = NULL;
     }
 
     ~Movie() {

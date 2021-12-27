@@ -1,8 +1,14 @@
+valgrind:
+	valgrind --leak-check=yes ./bin/output
+
+debug:
+	g++ -g ./src/*.cpp -lpthread -o ./bin/output
+
 run:
-	g++ ./src/*.cpp -lpthread -o ./bin/output && ./bin/output
+	g++ -O3 ./src/*.cpp -lpthread -o ./bin/output && ./bin/output
 
 build:
-	g++ ./src/*.cpp -lpthread -o ./bin/output
+	g++ -O3 ./src/*.cpp -lpthread -o ./bin/output
 
 execute:
 	./bin/output
