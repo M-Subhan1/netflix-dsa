@@ -1,10 +1,13 @@
 #ifndef UTILS_H
 #define UTILS_H
-#include"trie.hpp"
-#include"movie.hpp"
-#include"SinglyLinkedList.hpp"
 
-LinkedList<Movie*>* get_data ();
-LinkedList<std::string>* parse_multivalued_attr(string string);
+#include"movie.hpp"
+#include"Graph.hpp"
+#include"genre.hpp"
+#include"actor.hpp"
+
+Graph<Movie*> *get_data ();
+void parse_genre(string genre, Movie*, Graph<Movie*> *); 
+void parse_actor(string cast, Movie*, Graph<Actor*> *);
 
 #endif

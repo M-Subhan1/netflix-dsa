@@ -2,20 +2,14 @@
 #define MOVIE_H
 #include <iostream>
 #include "SinglyLinkedList.hpp"
+#include "genre.hpp"
+#include "actor.hpp"
 
 struct Movie {
     std::string show_id, type, title, director, country, date_added, release_year, duration, description, rating;
-    LinkedList<string> *cast, *listed_in;
+    LinkedList<Genre<Movie*>*> category;
 
-    Movie() {
-        cast = NULL;
-        listed_in = NULL;
-    }
-
-    ~Movie() {
-        if (cast) delete cast;
-        if (listed_in) delete listed_in;
-    }
+    // LinkedList<string> *cast;
 };
 
 #endif

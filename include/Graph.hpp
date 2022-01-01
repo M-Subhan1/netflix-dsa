@@ -1,73 +1,40 @@
-#include<iostream>
+#ifndef GRAPH_H
+#define GRAPH_H
+
 #include"trie.hpp"
 #include"SinglyLinkedList.hpp"
+#include"avl_tree.hpp"
+#include"movie.hpp"
 
 using namespace std;
 
-template <class K, class T> class GraphEdge {
-    int weight;
-    GraphNode<K, T> *v1;
-    GraphNode<K, T> *v2;
+template<class T> class Graph {
+public:
+    AVL<string, Genre<Movie*>*> category;
+    Trie<T> data;
+    Genre<Movie*>* add_category(string);
+    Genre<Movie*>* find_category(string);
+    void add_node(T data);
 };
 
-template <class K, class T> class GraphNode {
-    T data;
-    LinkedList<GraphNode<K,T>*> edges;
-};
+template<class T> Genre<Movie*>* Graph<T>::add_category(string category) {
+    Genre<Movie*>* found = find_category(category);
+    if (found) return found;
 
-template <class K, class T>class Graph {
-    Trie<GraphNode<K,T>*> data;
-    void insert(K key, T data);
-    void remove_node(K key);
-    T search(K key);
-    int get_weight(K, K);
-    void insert_edge(K, K);
-    void remove_edge(K, K);
-};
+    Genre<Movie*> *ptr = new Genre<Movie*>(category);
 
-template <class K, class T> void Graph<K, T>::insert(K key, T value) {
-    GraphNode<K, T> *node = new GraphNode<K, T>(value);
-    data->insert(key, node);
-    // update edges
+    this->category.insert(category, ptr);
+    return ptr;
 }
 
-template <class K, class T> void Graph<K, T>::remove_node(K key) {
-    GraphNode<K, T>* node = data->search(key);
-    // remove edges
-    data->remove(key);
+template<class T> Genre<Movie*>* Graph<T>::find_category(string category) {
+    Genre<Movie*> *found = this->category.search(category);
+    if (found) return found;
+    return NULL;
 }
 
-template <class K, class T> T Graph<K, T>::search(K key) {
-    GraphNode<K, T>* node = data->search(K);
-    return node ? node->data: NULL;
+template<class T> void Graph<T>::add_node(T data) {
+    this->data.insert(data->title, data);
 }
 
-template <class K, class T> int Graph<K, T>::get_weight(K key_node1, K key_node2) {
-    GraphNode<K, T> *node1, *node2;
-    node1 = data->search(key_node1);
-    node2 = data->search(key_node2);
-
-    if (!node1 || !node2) return 0;
-    // get weight of edge between the two
-    return 1;
-}
-
-template <class K, class T> void Graph<K, T>::insert_edge(K key_node1, K key_node2) {
-    GraphNode<K, T> *node1, *node2;
-    node1 = data->search(key_node1);
-    node2 = data->search(key_node2);
-    
-    if (!node1 || !node2) return;
-
-    // add edge between the two
-}
-
-template <class K, class T> void Graph<K, T>::remove_edge(K key_node1, K key_node2) {
-    GraphNode<K, T> *node1, *node2;
-    node1 = data->search(key_node1);
-    node2 = data->search(key_node2);
-
-    if (!node1 || !node2) return;
-
-    // remove edge between the two
-}
+#endif

@@ -2,9 +2,11 @@
 #define ACTOR_H
 #include <iostream>
 #include "SinglyLinkedList.hpp"
+#include "movie.hpp"
 
 struct Actor {
     std::string *name;
+
 
     Actor(const char *name) {
         this->name->assign(name);

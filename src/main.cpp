@@ -1,38 +1,58 @@
 #include<iostream>
 #include"../include/utils.hpp"
-#include"../include/trie.hpp"
-#include"../include/movie.hpp"
-#include"../include/avl_tree.hpp"
+#include"../include/Graph.hpp"
 
 using namespace std;
 
 int main () {
-    Trie<Movie*> trie;
-    LinkedList<Movie*> *movies = get_data();
-    int count = 0;
+    Graph<Movie*> *movies = get_data();
 
-     //populating the tree
+    Movie* search = movies->data.search("MAtrix");
+    LinkedList<Genre<Movie*>*> *genre = &search->category; 
 
-    ListNode<Movie*>* curr = movies->start;
-    while (curr && curr->data) 
-    { 
-        trie.insert(curr->data->title, curr->data);
-        curr = curr->next;
-        count++;
-    }
+    ListNode<Genre<Movie*>*> *node = genre->start;
+    ListNode<Movie*> *temp2;
 
-    Movie *test = trie.search("a");
-
-    curr = movies->start;
-    ListNode<Movie*> *prev = NULL;
-    while(curr) 
-    {
-        prev = curr;
-        curr = curr->next;
-        delete prev->data; 
-    }
+    // while(node) {
+        if (node && node->data) {
+            cout << node->data->name << endl;
+            node->data->list.printList();
+            cout << node->data->name << endl;
+        }
+        // while (temp2)
+        // {
+        //     cout << temp2->data << endl;
+        //     temp2 = temp2->next;
+        // }
+        // node = node->next;
+    // }
 
     delete movies;
+    // Trie<Movie*> trie;
+    // int count = 0;
+
+    //  //populating the tree
+
+    // ListNode<Movie*>* curr = movies->start;
+    // while (curr && curr->data) 
+    // { 
+    //     trie.insert(curr->data->title, curr->data);
+    //     curr = curr->next;
+    //     count++;
+    // }
+
+    // Movie *test = trie.search("a");
+
+    // curr = movies->start;
+    // ListNode<Movie*> *prev = NULL;
+    // while(curr) 
+    // {
+    //     prev = curr;
+    //     curr = curr->next;
+    //     delete prev->data; 
+    // }
+
+    // delete movies;
 }
 
 
