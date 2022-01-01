@@ -11,6 +11,7 @@ public:
 
     Movie* search_playlist(string);
     void add_to_playlist(Movie*);
+    void show_playlist();
 };
 
 Movie* Playlist::search_playlist(string name){
@@ -22,10 +23,20 @@ Movie* Playlist::search_playlist(string name){
     return playlist.queue[playlist.front];
 }
 
-void Playlist::add_to_playlist(Movie* movie){
-
+void Playlist::add_to_playlist(Movie* movie)
+{
     if(playlist.size <= 10) playlist.Enqueue(movie);
     else cout << "Playlist is full" << endl;
+}
+
+void Playlist::show_playlist()
+{
+    while(playlist.size <= 0 )
+    {
+        Movie* movie = playlist.Dequeue();
+        cout << movie->title << endl;
+        playlist.Enqueue(movie);
+    }
 }
 
 #endif

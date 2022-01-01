@@ -29,6 +29,7 @@ Graph<Movie*>* get_genre () {
 
     return graph;
 }
+
 ActorGraph<Movie*>* get_cast () {
     io::CSVReader<12, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("./data/netflix_titles.csv");
     in.read_header(io::ignore_extra_column, "show_id", "type", "title", "director", "cast", "country", "date_added", "release_year", "rating", "duration", "listed_in", "description");
@@ -87,7 +88,6 @@ LinkedList<Movie*>* get_movies () {
     return movies;    
 }
 
-
 void parse_genre(string str, Movie *movie, Graph<Movie*> *graph) {
     LinkedList<Genre<Movie*>> *list = new LinkedList<Genre<Movie*>>;
     std::string temp;
@@ -135,4 +135,49 @@ void parse_actor(string str, Movie* movie, ActorGraph<Movie*> *graph)
         actor->movie_list.insert(movie);
         graph->add_node(movie);
     }
+}
+
+void parse_directors(string str, Movie* movie, DirectorGraph<Movie*> *graph)
+{
+    LinkedList<Director<Movie*>> *list = new LinkedList<Director<Movie*>>; //list of pointers of actors
+    std::string temp;
+
+    for (int i = 0; i < str.length(); i++) {
+        if (str.at(i) == ',') {
+            Director<Movie*> *director = graph->add_director(temp);
+            director->movie_list.insert(movie); //insertion in list of movies stored in director object
+            movie->directors.insert(director);
+            graph->add_node(movie);
+            temp = "";
+        }
+        else if (temp.empty() && str.at(i) == ' ') continue;
+        else temp += str.at(i);
+    }
+    //adding the last director left in parsed string
+    if (temp.length()) {
+        Director<Movie*> *director = graph->add_director(temp);
+        movie->directors.insert(director);
+        director->movie_list.insert(movie);
+        graph->add_node(movie);
+    }
+}
+
+DirectorGraph<Movie*> *get_directors()
+{
+    io::CSVReader<12, io::trim_chars<' '>, io::double_quote_escape<',','\"'>> in("./data/netflix_titles.csv");
+    in.read_header(io::ignore_extra_column, "show_id", "type", "title", "director", "cast", "country", "date_added", "release_year", "rating", "duration", "listed_in", "description");
+    DirectorGraph<Movie*> *graph = new DirectorGraph<Movie*>;
+    string cast, genre, directors;
+
+    while (true) {
+        Movie *temp = new Movie;
+        if (!in.read_row(temp->show_id, temp->type, temp->title, directors, cast, temp->country, temp->date_added, temp->release_year, temp->rating, temp->duration, genre, temp->description)) {
+            delete temp;
+            break;
+        }
+
+        parse_directors(directors, temp, graph);
+    }
+
+    return graph;
 }

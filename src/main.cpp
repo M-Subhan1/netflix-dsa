@@ -2,12 +2,11 @@
 #include"../include/utils.hpp"
 #include"../include/Graph.hpp"
 #include "../include/Graph(Actor).hpp"
+#include "../include/playlist.hpp"
+#include "../include/director.hpp"
+#include "../include/DirectorGraph.hpp"
 
 using namespace std;
-
-void display_menu(){
-    cout<<"1. Search by movie title\n2.Search by genre\n3.Search by actor\n4.Search co-actors of an actor\n5.Add to playlist\n6.Show playlist\n7.Search by director\n8.Show recommendations"<<endl;
-}
 
 void search_by_title(string userInput, LinkedList<Movie*>* movies, Trie<Movie*> trie)
 {
@@ -31,11 +30,125 @@ void insertMovies(Trie<Movie*> trie, LinkedList<Movie*> *movies)
 }
 
 
-int main () {
+void displayMenu()
+{
+    cout << "1. Search movie by title: " << endl;
+    cout << "2. Search movie by genre: " << endl;
+    cout << "3. Search movie by actor: " << endl;
+    cout << "4. Search movie by director: " << endl;
+    cout << "5. Add to playlist: " << endl;
+    cout << "6. Show my playlist: " << endl;
+    cout << "7. Recommend me something to watch: " << endl;
+    cout << "8. Show co-actors of an actor: " << endl;
+}
 
-    ActorGraph<Movie*>* actors = get_cast();
-    Actor<Movie*>* found = actors->find_actor("Vanessa Hudgens");
-    found->movie_list.printList();
+//main functions
+//playlist to find movie and no recommendations just exact movies
+//recommendation system
+
+int main () 
+{
+    
+    Playlist p1;
+    Trie<Movie*> trie;
+    LinkedList<Movie*> *movies = get_movies();
+    ListNode<Movie*>* curr = movies->start;
+
+    while (curr && curr->data) //storing movies in the trie
+    { 
+        trie.insert(curr->data->title, curr->data);
+        curr = curr->next;
+    }
+
+    Graph<Movie*> *genres = get_genre(); //populating graph for genres
+    ActorGraph<Movie*>* actors = get_cast(); //populating graph for cast
+    DirectorGraph<Movie*>* directors = get_directors(); //populating graph for directors
+
+    displayMenu();
+    while(true){
+        string userInput;
+        int userSelect;
+        cout << "What would you like to do: ";
+        cin>>userSelect;
+
+        if (userSelect == 1)
+        {
+            cout << "Enter the name of the movie (auto-completion is enabled): ";
+            cin.ignore();
+            getline(cin, userInput);
+            Movie *test = trie.search(userInput);
+            cout << endl;
+            displayMenu();
+            continue;
+        }
+
+        if (userSelect == 2)
+        {
+            cout << "Enter the name of the genre: ";
+            cin.ignore();
+            getline(cin, userInput);
+            Genre<Movie*>* found = genres->find_category(userInput);
+            found->list.printList();
+            cout << endl;
+            displayMenu();
+            continue;
+        }
+
+        if (userSelect == 3)
+        {
+            cout << "Enter the name of the actor: ";
+            cin.ignore();
+            getline(cin, userInput);
+            Actor<Movie*>* found = actors->find_actor(userInput);
+            found->movie_list.printList();
+            cout << endl;
+            displayMenu();
+            continue;
+        }
+
+        if (userSelect == 4)
+        {
+            cout << "Enter the name of the director: ";
+            cin.ignore();
+            getline(cin, userInput);
+            Director<Movie*>* found = directors->find_director(userInput);
+            found->movie_list.printList();
+            cout << endl;
+            displayMenu();
+            continue;
+        }
+
+        if (userSelect == 5)
+        {
+            cout << "Enter the name of the movie you would like to put in your playlist: ";
+            cin.ignore();
+            getline(cin, userInput);
+
+            Movie * user = trie.search(userInput);
+            if (user) p1.playlist.Enqueue(user);
+            cout << endl;
+            displayMenu();
+            continue;
+        }
+
+        if (userSelect == 6)
+        {
+            cout << "Your current playlist: ";
+            p1.show_playlist();
+            cout << endl;
+            displayMenu();
+            continue;
+        }
+
+    }
+
+
+
+
+
+    // ActorGraph<Movie*>* actors = get_cast();
+    // Actor<Movie*>* found = actors->find_actor("Vanessa Hudgens");
+    // found->movie_list.printList();
 
     // Trie<Movie*> trie;
     // LinkedList<Movie*> *movies = get_movies();
