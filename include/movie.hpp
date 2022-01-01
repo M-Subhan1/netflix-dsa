@@ -7,9 +7,13 @@
 
 struct Movie {
     std::string show_id, type, title, director, country, date_added, release_year, duration, description, rating;
+    //storing in graphs
     LinkedList<Genre<Movie*>*> category;
+    LinkedList<Actor<Movie*>*> actors;
+    //storing movies
+    LinkedList<string>* genres;
+    LinkedList<string> *cast;
 
-    // LinkedList<string> *cast;
 };
 
 #endif

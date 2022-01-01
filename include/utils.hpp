@@ -5,9 +5,13 @@
 #include"Graph.hpp"
 #include"genre.hpp"
 #include"actor.hpp"
+#include "Graph(Actor).hpp"
 
-Graph<Movie*> *get_data ();
+Graph<Movie*> *get_genre ();
+ActorGraph<Movie*> *get_cast ();
+LinkedList<Movie*>* get_movies();
+LinkedList<std::string>* parse_multivalued_attr(string);
 void parse_genre(string genre, Movie*, Graph<Movie*> *); 
-void parse_actor(string cast, Movie*, Graph<Actor*> *);
+void parse_actor(string cast, Movie*, ActorGraph<Movie*> *);
 
 #endif

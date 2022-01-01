@@ -5,6 +5,7 @@
 #include"SinglyLinkedList.hpp"
 #include"avl_tree.hpp"
 #include"movie.hpp"
+#include "genre.hpp"
 
 using namespace std;
 
@@ -12,6 +13,7 @@ template<class T> class Graph {
 public:
     AVL<string, Genre<Movie*>*> category;
     Trie<T> data;
+    
     Genre<Movie*>* add_category(string);
     Genre<Movie*>* find_category(string);
     void add_node(T data);

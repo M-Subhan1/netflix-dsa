@@ -4,16 +4,13 @@
 #include "SinglyLinkedList.hpp"
 #include "movie.hpp"
 
-struct Actor {
-    std::string *name;
+template <class T> class Actor {
+public:
+    std::string name;
+    LinkedList<T> movie_list;
 
-
-    Actor(const char *name) {
-        this->name->assign(name);
-    }
-
-    ~Actor() {
-        if (name) delete name;
+    Actor(string name) {
+        this->name = name;
     }
 };
 
