@@ -17,14 +17,14 @@ Graph* get_graph (LinkedList<Movie*> *movies, LinkedList<Actor<Movie*>*> *actors
     string cast, genre, director;
     int x = 0;
 
-    while (true && x < 100) {
+    while (true && x < 5000) {
         Movie *temp = new Movie;
         if (!in.read_row(temp->show_id, temp->type, temp->name, director, cast, temp->country, temp->date_added, temp->release_year, temp->rating, temp->duration, genre, temp->description)) {
             delete temp;
             break;
         }
 
-        movies->insert(temp);
+        // movies->insert(temp);
         parse_genre(genre, temp, graph, genres);
         parse_actor(cast, temp, graph, actors);
         parse_directors(director, temp, graph, directors);
@@ -40,7 +40,7 @@ void parse_genre(string str, Movie *movie, Graph *graph, LinkedList<Genre<Movie*
     for (int i = 0; i < str.length(); i++) {
         if (str.at(i) == ',') {
             Genre<Movie*> *genre = graph->add_category(temp);
-            genres->insert(genre);
+            // genres->insert(genre);
             genre->list.insert(movie); //insertion in list of movies stored in genre object
             movie->category.insert(genre);
             graph->add_movie(movie);
@@ -52,7 +52,7 @@ void parse_genre(string str, Movie *movie, Graph *graph, LinkedList<Genre<Movie*
     //adding the last genre left in parsed string
     if (temp.length()) {
         Genre<Movie*> *genre = graph->add_category(temp);
-        genres->insert(genre);
+        // genres->insert(genre);
         movie->category.insert(genre);
         genre->list.insert(movie);
         graph->add_movie(movie);
@@ -66,7 +66,7 @@ void parse_actor(string str, Movie* movie, Graph *graph, LinkedList<Actor<Movie*
     for (int i = 0; i < str.length(); i++) {
         if (str.at(i) == ',') {
             Actor<Movie*> *actor = graph->add_actor(temp.data());
-            actors->insert(actor);
+            // actors->insert(actor);
             actor->movie_list.insert(movie); //insertion in list of movies stored in genre object
             movie->actors.insert(actor);
             temp = "";
@@ -77,7 +77,7 @@ void parse_actor(string str, Movie* movie, Graph *graph, LinkedList<Actor<Movie*
     //adding the last genre left in parsed string
     if (temp.length()) {
         Actor<Movie*> *actor = graph->add_actor(temp.data());        
-        actors->insert(actor);
+        // actors->insert(actor);
         actor->movie_list.insert(movie);
         movie->actors.insert(actor);
     }
@@ -90,7 +90,7 @@ void parse_directors(string str, Movie* movie, Graph *graph, LinkedList<Director
     for (int i = 0; i < str.length(); i++) {
         if (str.at(i) == ',') {
             Director<Movie*> *director = graph->add_director(temp.data());
-            directors->insert(director);
+            // directors->insert(director);
             director->movie_list.insert(movie); //insertion in list of movies stored in director object
             movie->directors.insert(director);
             temp = "";
@@ -101,7 +101,7 @@ void parse_directors(string str, Movie* movie, Graph *graph, LinkedList<Director
     //adding the last director left in parsed string
     if (temp.length()) {
         Director<Movie*> *director = graph->add_director(temp.data());
-        directors->insert(director);
+        // directors->insert(director);
         director->movie_list.insert(movie); //insertion in list of movies stored in director object
         movie->directors.insert(director);
     }

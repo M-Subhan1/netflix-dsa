@@ -76,8 +76,9 @@ template <class T> void LinkedList<T>::insert(T value) {
 	else if (start) {
 		newNode->next = start;
 		start = newNode;
-		length++;
 	}
+
+	length++;
 }
 
 template <class T> void LinkedList<T>::printList() {

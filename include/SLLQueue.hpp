@@ -3,28 +3,28 @@
 #include <iostream>
 using namespace std;
 
-template <class T> class ListNode {
+template <class T> class PlaylistNode {
 public:
 	T data;
-	ListNode *next;
-	ListNode(T val);
+	PlaylistNode<T> *next;
+	PlaylistNode<T> (T val);
 };
 
 template <class T> class Playlist {
 public:
 	Playlist();
 	~Playlist();
-	ListNode<T> *start; // special variable which stores address of the head node.
-	ListNode<T> *last; // special variable which stores address of the last node.
-	ListNode<T> *pLoc; // to be used by Search(value) method to store address
-	ListNode<T> *loc; // to be used by Search(value) method to store 
+	PlaylistNode<T> *start; // special variable which stores address of the head node.
+	PlaylistNode<T> *last; // special variable which stores address of the last node.
+	PlaylistNode<T> *pLoc; // to be used by Search(value) method to store address
+	PlaylistNode<T> *loc; // to be used by Search(value) method to store 
 	void printList();
-    void dequeue(T); 
+    void dequeue(); 
 	void enqueue(T);
 };
 
-template <class T> ListNode<T>::ListNode(T val) {
-	// Initializing ListNode
+template <class T> PlaylistNode<T>::PlaylistNode(T val) {
+	// Initializing PlaylistNode
 	data = val;
 	next = NULL;
 }
@@ -37,7 +37,7 @@ template <class T> Playlist<T>::Playlist() {
 template <class T> Playlist<T>::~Playlist() {
 	// Deleting All Nodes on List Destruction
 	if (!start) return;
-	ListNode<T> *tempNode = start;
+	PlaylistNode<T> *tempNode = start;
 	// iterating over the entire list and deleting nodes
 	while (tempNode) {
 		pLoc = tempNode;
@@ -48,49 +48,37 @@ template <class T> Playlist<T>::~Playlist() {
 }
 
 template <class T> void Playlist<T>::printList() {
-	ListNode<T> *node = start;
+	PlaylistNode<T> *node = start;
 	cout << "List: ";
 	while (node) {
-		cout << *(node->data) << ", ";
+		cout << node->data << ", ";
 		node = node->next;
 	}
 	cout << endl;
 }
 
-template <class T> void Playlist<T>::dequeue(T value) // takes input from a user and inserts it at the front of a list
+template <class T> void Playlist<T>::dequeue() // takes input from a user and inserts it at the front of a list
 {
-	ListNode<T>* temp = start;
+	PlaylistNode<T>* temp = start;
 
 	if (start != NULL) //list is not empty
 	{
 		temp = temp->next;
         delete start;
-		start = new_node;
+		start = temp;
 	}
-
-	else //updating last pointer if list is empty
-	cout << "Playlist empty." << endl;
+	else cout << "Playlist empty." << endl;
 }
 
 template <class T> void Playlist<T>::enqueue(T value) //inserts value at end of a list
 {
-	ListNode<T>* new_node = new ListNode<T>();	//creating a new node
+	PlaylistNode<T>* new_node = new PlaylistNode<T>(value);	//creating a new node
 
-	new_node->data = value;	//storing value in the node
+	//updating last and start pointer if list is empty
+	if (start) last->next = new_node;
+	else  start = new_node;
 
-	if (!IsEmpty())
-	{
-		new_node->next = NULL;
-		last->next = new_node;
-		last = new_node;
-	}
-
-	else   //updating last and start pointer if list is empty
-	{
-		start = new_node;
-		last = new_node;
-		new_node->next = NULL;
-	}
+	last = new_node;
 }
 
 #endif

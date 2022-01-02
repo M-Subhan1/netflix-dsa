@@ -24,9 +24,11 @@ public:
     Director<Movie*>* add_director(string title);
 
     void add_movie(Movie* data);
-    Movie* search_by_actor(string);
+    Actor<Movie*>* search_by_actor(string);
     Movie* search_by_director(string);
     Movie* search_by_title(string);
+    Movie* search_by_genre(string title);
+    LinkedList<Movie*>* recommend_movies(string title);
 };
 
 #endif

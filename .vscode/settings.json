@@ -22,7 +22,9 @@
     "ostream": "cpp",
     "ratio": "cpp",
     "sstream": "cpp",
-    "streambuf": "cpp"
+    "streambuf": "cpp",
+    "typeindex": "cpp",
+    "typeinfo": "cpp"
   },
   "C_Cpp.dimInactiveRegions": false
 }

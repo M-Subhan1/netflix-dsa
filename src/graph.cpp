@@ -1,4 +1,5 @@
 #include"../include/Graph.hpp"
+#include"../include/utils.hpp"
 
 Genre<Movie*>* Graph::add_category(string category) {
     Genre<Movie*>* found = find_category(category);
@@ -20,25 +21,6 @@ void Graph::add_movie(Movie *movie) {
     this->movies.insert(movie->name, movie);
 }
 
-Movie *Graph::search_by_director(string name) {
-    LinkedList<Director<Movie*>*> *list = directors.search(name);
-    // list->printList();
-    // if (list) delete list;
-    return NULL;
-}
-
-Movie *Graph::search_by_actor(string name) {
-    LinkedList<Actor<Movie*>*> *list = actors.search(name);
-    // list->printList();
-    // delete list;
-    return NULL;
-}
-
-Movie *Graph::search_by_title(string title) {
-    LinkedList<Movie*> *list = movies.search(title);
-    return NULL;
-}
-
 Actor<Movie*> *Graph::add_actor(string title) {
     TrieNode<Actor<Movie*>*> *node = this->actors.searchExact(title);
 
@@ -47,7 +29,7 @@ Actor<Movie*> *Graph::add_actor(string title) {
         this->actors.insert(actor->name, actor);
         return actor;
     }
-
+    
     return node->data;
 }
 
@@ -61,4 +43,48 @@ Director<Movie*> *Graph::add_director(string title) {
     }
 
     return node->data;
+}
+
+Movie* Graph::search_by_director(string name) {
+    LinkedList<Director<Movie*>*> *list = directors.search(name);
+    list->printList();
+    Director<Movie*> *director = select_from_list<Director<Movie*>*>(list);
+    delete list;
+
+    if (director) {
+        director->movie_list.printList();
+    }
+    return NULL;
+}
+
+Actor<Movie*>* Graph::search_by_actor(string name) {
+    LinkedList<Actor<Movie*>*> *list = actors.search(name);
+    Actor<Movie*> *actor = select_from_list<Actor<Movie*>*>(list);
+    delete list;
+    if (actor) return actor;
+    return NULL;
+}
+
+Movie* Graph::search_by_title(string title) {
+    LinkedList<Movie*> *list = movies.search(title);
+    Movie *movie = select_from_list<Movie*>(list);
+    delete list;
+    if (movie) {
+        cout << movie->name << endl;
+    }
+    return NULL;
+}
+
+Movie* Graph::search_by_genre(string title) {
+    Genre<Movie*> *genre = category.search(title);
+
+    if (!genre) return NULL;
+    else {
+        Movie *movie = select_from_list<Movie*>(&genre->list); 
+        return movie;
+    }
+}
+
+LinkedList<Movie*>* Graph::recommend_movies(string title) {
+    
 }

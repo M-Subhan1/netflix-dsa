@@ -81,9 +81,7 @@ template <class T> LinkedList<T>* Trie<T>::search(string key) {
     
     LinkedList<T> *list = new LinkedList<T>;
     search(current, list);
-    list->printList();
-    delete list;
-    return NULL;
+    return list;
 }
 
 template <class T> TrieNode<T>* Trie<T>::searchExact(string key) {
@@ -142,6 +140,5 @@ template <class T>void Trie<T>::remove(string key) {
     current->isEndOfWord = false;
     current->data = NULL;
 }
-
 
 #endif

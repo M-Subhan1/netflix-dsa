@@ -9,7 +9,7 @@ using namespace std;
 void displayMenu()
 {
     cout << "1. Search movie by title: " << endl;
-    cout << "2. List movies by genre: " << endl;
+    cout << "2. Search movies by genre: " << endl;
     cout << "3. List movie by actor: " << endl;
     cout << "4. List movie by director: " << endl;
     cout << "5. Add to playlist: " << endl;
@@ -28,21 +28,23 @@ int main ()
     LinkedList<Actor<Movie*>*> *actors = new LinkedList<Actor<Movie*>*> ; 
     LinkedList<Director<Movie*>*> *directors = new LinkedList<Director<Movie*>*>; 
     LinkedList<Genre<Movie*>*> *genre = new LinkedList<Genre<Movie*>*>;
-
     Graph *graph = get_graph(movies, actors, directors, genre);
-   // graph->movies.search("Aziz");
+    // graph->search_by_title("a");
+    graph->search_by_director("ava");
+    graph->search_by_actor("John");
+    graph->search_by_genre("Comedies");
+    // graph->movies.search("Aziz");
     //graph->actors.search("derek");
     //graph->directors.search("vanessa");
 
     string userInput;
-    Playlist<Movie*> p1;
-    cout << "input: ";
-    cin >> userInput;
-    TrieNode<Movie*> *user = graph->movies.searchExact(userInput);
-     if (user) 
-     p1.enqueue(user->data);
+    Playlist<string> p1;
+    // cin >> userInput;
+    // TrieNode<Movie*> *user = graph->movies.searchExact(userInput);
+    //  if (user) 
+    //  p1.enqueue(user->data);
 
-     p1.printList();
+    //  p1.printList();
     
 
 
@@ -200,56 +202,56 @@ int main ()
 
     // Movie *test = trie.search("a");
 
-    ListNode<Movie*>* curr = movies->start;
-    ListNode<Movie*> *prev = NULL;
-    while(curr) 
-    {
-        prev = curr;
-        curr = curr->next;
-        if (prev->data) delete prev->data; 
-    }
+    // ListNode<Movie*>* curr = movies->start;
+    // ListNode<Movie*> *prev = NULL;
+    // while(curr) 
+    // {
+    //     prev = curr;
+    //     curr = curr->next;
+    //     if (prev->data) delete prev->data; 
+    // }
 
-    delete movies;
+    // delete movies;
 
-    ListNode<Actor<Movie*>*> *temp = actors->start;
-    ListNode<Actor<Movie*>*> *temp2 = actors->start;
-    temp2 = NULL;
-    while(temp) 
-    {
-        temp2 = temp;
-        temp = temp->next;
-        if (temp2->data) delete temp2->data; 
-    }
+    // ListNode<Actor<Movie*>*> *temp = actors->start;
+    // ListNode<Actor<Movie*>*> *temp2 = actors->start;
+    // temp2 = NULL;
+    // while(temp) 
+    // {
+    //     temp2 = temp;
+    //     temp = temp->next;
+    //     if (temp2->data) delete temp2->data; 
+    // }
 
-    delete actors;
+    // delete actors;
 
 
-    ListNode<Director<Movie*>*> *pd = directors->start;
-    ListNode<Director<Movie*>*> *d = directors->start;
-    pd = NULL;
-    while(d) 
-    {
-        pd = d;
-        d = d->next;
-        if (pd->data) delete pd->data; 
-    }
+    // ListNode<Director<Movie*>*> *pd = directors->start;
+    // ListNode<Director<Movie*>*> *d = directors->start;
+    // pd = NULL;
+    // while(d) 
+    // {
+    //     pd = d;
+    //     d = d->next;
+    //     if (pd->data) delete pd->data; 
+    // }
 
-    delete directors;
+    // delete directors;
 
 
     
-    ListNode<Genre<Movie*>*> *g = genre->start;
-    ListNode<Genre<Movie*>*> *pg = NULL;
-    while(g) 
-    {
-        pg = g;
-        g = g->next;
-        if (pg->data) delete pg->data; 
-    }
+    // ListNode<Genre<Movie*>*> *g = genre->start;
+    // ListNode<Genre<Movie*>*> *pg = NULL;
+    // while(g) 
+    // {
+    //     pg = g;
+    //     g = g->next;
+    //     if (pg->data) delete pg->data; 
+    // }
 
-    delete genre;
+    // delete genre;
 
-    delete graph;
+    // delete graph;
 }
 
 
