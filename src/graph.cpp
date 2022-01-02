@@ -70,7 +70,7 @@ Movie* Graph::search_by_title(string title) {
     Movie *movie = select_from_list<Movie*>(list);
     delete list;
     if (movie) {
-        cout << movie->name << endl;
+        printMovieDetails(movie);
     }
     return NULL;
 }
@@ -87,4 +87,16 @@ Movie* Graph::search_by_genre(string title) {
 
 LinkedList<Movie*>* Graph::recommend_movies(string title) {
     
+}
+
+void Graph::printMovieDetails(Movie* movie)
+{
+    cout << "Title: " << movie->name << endl;
+    cout << "Type: " << movie->type << endl;
+    cout << "Directed by: ";
+    movie->directors.printList();  cout << endl;
+    cout << "Actors: ";
+    movie->actors.printList();
+    cout << "Release year: " << movie->release_year << endl;
+    cout << "Description: " << movie->description << endl;
 }
