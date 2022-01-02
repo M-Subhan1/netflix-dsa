@@ -23,9 +23,10 @@ public:
     Trie();
     ~Trie();
     void insert(string, T);
-    T search(string);
+    LinkedList<T>* search(string);
     void remove(string);
     void destroy(TrieNode<T>*);
+    TrieNode<T>* searchExact(string key);
 private:
     void search(TrieNode<T>*, LinkedList<T>*);
     void destroyHelper(AVLNode<char, TrieNode<T>*> *);
@@ -67,7 +68,7 @@ template <class T>void Trie<T>::insert(string key, T data) {
     current->data = data;
 }
 
-template <class T> T Trie<T>::search(string key) {
+template <class T> LinkedList<T>* Trie<T>::search(string key) {
     TrieNode<T> *current = root;
     std::for_each(key.begin(), key.end(), [](char & c) {
         c = ::tolower(c);
@@ -77,13 +78,28 @@ template <class T> T Trie<T>::search(string key) {
         if (current->children->search(key[i]) == NULL) return NULL;
         current = current->children->search(key[i]);
     }
-
+    
     LinkedList<T> *list = new LinkedList<T>;
     search(current, list);
     list->printList();
     delete list;
+    return NULL;
+}
 
-    return current->data;
+template <class T> TrieNode<T>* Trie<T>::searchExact(string key) {
+    TrieNode<T> *current = root;
+    std::for_each(key.begin(), key.end(), [](char & c) {
+        c = ::tolower(c);
+    }); 
+
+    for (int i = 0; i < key.length(); i++) {
+        if (current->children->search(key[i]) == NULL) return NULL;
+        current = current->children->search(key[i]);
+    }
+    
+    if (current->isEndOfWord) return current;
+
+    return NULL;
 }
 
 template <class T> void Trie<T>::search(TrieNode<T> *node, LinkedList<T> *list) {
@@ -126,5 +142,6 @@ template <class T>void Trie<T>::remove(string key) {
     current->isEndOfWord = false;
     current->data = NULL;
 }
+
 
 #endif

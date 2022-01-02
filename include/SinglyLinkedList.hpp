@@ -20,6 +20,8 @@ public:
 	int length;
 	void insert(T);
 	void printList();
+	void destroyData();
+	bool search(T value);
     // address of the node containing the searched value in alist.If it is not
 	// found it contains NULL.
 };
@@ -32,13 +34,15 @@ template <class T> ListNode<T>::ListNode(T val) {
 
 template <class T> LinkedList<T>::LinkedList() {
 	// Init Linked List
-	start = pLoc = loc = NULL;
+	start = NULL;
+	pLoc = NULL;
+	loc = NULL;
 	length = 0;
 }
 
 template <class T> LinkedList<T>::~LinkedList() {
 	// Deleting All Nodes on List Destruction
-	if (!start) return;
+	if (start == NULL) return;
 	ListNode<T> *tempNode = start;
 	// iterating over the entire list and deleting nodes
 	while (tempNode) {
@@ -49,7 +53,21 @@ template <class T> LinkedList<T>::~LinkedList() {
 	start = NULL;
 }
 
+template <class T> bool LinkedList<T>::search(T value) {
+	if (start == NULL) return false;
+	ListNode<T> *tempNode = start;
+	// iterating over the entire list and deleting nodes
+	while (tempNode) {
+		if (tempNode->data == value) return true;
+		pLoc = tempNode;
+		tempNode = tempNode->next;
+	}
+
+	return false;
+}
+
 template <class T> void LinkedList<T>::insert(T value) {
+	if (search(value)) return;
 	ListNode<T> *newNode = new ListNode<T>(value);
 	// if list empty, adding a new node and updating start and last equal to
 	// newnode
@@ -67,10 +85,25 @@ template <class T> void LinkedList<T>::printList() {
 	cout << "List: ";
 	while (node)
     {
-		cout << node->data->title << ", ";
+		cout << node->data->name << ", ";
 		node = node->next;
 	}
 	cout << endl;
+}
+
+template <class T> void LinkedList<T>::destroyData() {
+		// Deleting All Nodes on List Destruction
+	if (!start) return;
+	ListNode<T> *tempNode = start;
+	// iterating over the entire list and deleting nodes
+	while (tempNode) {
+		pLoc = tempNode;
+		tempNode = tempNode->next;
+		if (pLoc->data) {
+			delete pLoc->data;
+			pLoc->data = NULL;
+		}
+	}
 }
 
 #endif

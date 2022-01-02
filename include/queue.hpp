@@ -56,6 +56,8 @@ template <class T> T Queue<T>::Dequeue()
 		front++; //increment front to point to next element in array
 		return del_element;
 	}
+
+	return 0;
 }
 
 template <class T> T Queue<T>::FirstElement()

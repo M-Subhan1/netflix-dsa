@@ -15,7 +15,7 @@ public:
 };
 
 Movie* Playlist::search_playlist(string name){
-    while(playlist.queue[playlist.front]->title != name)
+    while(playlist.queue[playlist.front]->name != name)
     {
         Movie* movie = playlist.Dequeue();
         playlist.Enqueue(movie);
@@ -34,7 +34,7 @@ void Playlist::show_playlist()
     while(playlist.size <= 0 )
     {
         Movie* movie = playlist.Dequeue();
-        cout << movie->title << endl;
+        cout << movie->name << endl;
         playlist.Enqueue(movie);
     }
 }
