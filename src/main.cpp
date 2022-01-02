@@ -1,7 +1,7 @@
 #include<iostream>
 #include"../include/utils.hpp"
 #include"../include/Graph.hpp"
-#include "../include/playlist.hpp"
+#include "../include/SLLQueue.hpp"
 #include "../include/director.hpp"
 
 using namespace std;
@@ -30,9 +30,22 @@ int main ()
     LinkedList<Genre<Movie*>*> *genre = new LinkedList<Genre<Movie*>*>;
 
     Graph *graph = get_graph(movies, actors, directors, genre);
-    graph->movies.search("Aziz");
-    graph->actors.search("derek");
-    graph->directors.search("vanessa");
+   // graph->movies.search("Aziz");
+    //graph->actors.search("derek");
+    //graph->directors.search("vanessa");
+
+    string userInput;
+    Playlist<Movie*> p1;
+    cout << "input: ";
+    cin >> userInput;
+    TrieNode<Movie*> *user = graph->movies.searchExact(userInput);
+     if (user) 
+     p1.enqueue(user->data);
+
+     p1.printList();
+    
+
+
     // graph->search_by_director("vanessa");
     // Playlist p1;
     // Trie<Movie*> trie;
