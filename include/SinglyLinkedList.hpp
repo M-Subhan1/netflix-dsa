@@ -83,7 +83,6 @@ template <class T> void LinkedList<T>::insert(T value) {
 
 template <class T> void LinkedList<T>::printList() {
 	ListNode<T> *node = start;
-	cout << "List: ";
 	while (node)
     {
 		cout << node->data->name << ", ";

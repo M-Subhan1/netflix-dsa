@@ -26,10 +26,12 @@ public:
     LinkedList<T>* search(string);
     void remove(string);
     void destroy(TrieNode<T>*);
+    void destroyValues(TrieNode<T>*);
     TrieNode<T>* searchExact(string key);
 private:
     void search(TrieNode<T>*, LinkedList<T>*);
     void destroyHelper(AVLNode<char, TrieNode<T>*> *);
+    void destroyValuesHelper(AVLNode<char, TrieNode<T>*> *node);
     void traverse(AVLNode<char, TrieNode<T>*> *curr, LinkedList<T> *list);
 };
 
@@ -118,6 +120,24 @@ template <class T> void Trie<T>::destroyHelper(AVLNode<char, TrieNode<T>*> *node
         destroyHelper(node->lchild);
         destroyHelper(node->rchild);
         destroy(node->data);
+    }
+}
+
+template <class T> void Trie<T>::destroyValues(TrieNode<T> *node) {
+    if (node) {
+        destroyValuesHelper(node->children->root);
+        if (node->isEndOfWord) {
+            delete node->data;
+            node->isEndOfWord = false;
+        }
+    }
+}
+
+template <class T> void Trie<T>::destroyValuesHelper(AVLNode<char, TrieNode<T>*> *node) {
+    if (node) {
+        destroyValuesHelper(node->lchild);
+        destroyValuesHelper(node->rchild);
+        destroyValues(node->data);
     }
 }
 

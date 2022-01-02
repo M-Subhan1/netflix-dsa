@@ -40,6 +40,7 @@ public:
     void destroyAVL(); // destorys AVL
     void tree_summary(); // abstraction layer for tree_summary
     AVLNode<K,T>* rotate(AVLNode<K,T>*);
+    void destroyValues(AVLNode<K,T> *node);
 private:
     int* tree_summary(AVLNode<K,T> *); // prints summary of the tree
     AVLNode<K,T>* insert(K, T, AVLNode<K,T> *, AVLNode<K,T> *);
@@ -330,6 +331,14 @@ template <class K, class T> int* AVL<K, T>::tree_summary(AVLNode<K, T> *curr) {
     for (int i = 0; i < 4; i++) arr[i] = arr[i] + arrL[i] + arrR[i];
     delete[] arrL; delete[] arrR;
     return arr;
+}
+
+template <class K, class T> void AVL<K, T>::destroyValues(AVLNode<K,T> *node) {
+    if (node) {
+        destroyValues(node->lchild);
+        destroyValues(node->rchild);
+        delete node->data;
+    }
 }
 
 #endif

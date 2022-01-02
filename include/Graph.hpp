@@ -18,6 +18,7 @@ public:
     Trie<Director<Movie*>*> directors;
     Trie<Actor<Movie*>*> actors; 
 
+    ~Graph();
     Genre<Movie*>* add_category(string);
     Genre<Movie*>* find_category(string);
     Actor<Movie*>* add_actor(string title);

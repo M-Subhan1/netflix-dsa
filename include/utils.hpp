@@ -7,20 +7,20 @@
 #include"actor.hpp"
 #include "../include/director.hpp"
 
-Graph* get_graph(LinkedList<Movie*> *, LinkedList<Actor<Movie*>*> *, LinkedList<Director<Movie*>*> *, LinkedList<Genre<Movie*>*> *genre);
-void parse_genre(string genre, Movie*, Graph *, LinkedList<Genre<Movie*>*> *); 
-void parse_actor(string cast, Movie*, Graph *, LinkedList<Actor<Movie*>*> *);
-void parse_directors(string director, Movie*, Graph *, LinkedList<Director<Movie*>*> *);
+Graph* get_graph();
+void parse_genre(string genre, Movie*, Graph *); 
+void parse_actor(string cast, Movie*, Graph *);
+void parse_directors(string director, Movie*, Graph *);
 
 template <class T> T select_from_list (LinkedList<T> *list) {
     if (!list || !list->start) return NULL;
     ListNode<T> *curr = list->start;
     int input = -1;
-    int index = 0;
+    int index = 1;
 
     while(true) {
         cout << "Choose an option (-1 to exit): " << endl;
-        int list_number = 1;
+        int list_number = 0;
 
         while (list_number < 10 && curr)
         {
@@ -46,7 +46,8 @@ template <class T> T select_from_list (LinkedList<T> *list) {
         cout << input << endl;
 
         curr = list->start;
-        for (int i = 1; i < (index + input) && i < list->length; i++) curr = curr->next;
+        for (int i = 1; i < input && i < list->length; i++) curr = curr->next;
+        
         return curr->data;
     }
 }

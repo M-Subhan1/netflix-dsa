@@ -1,5 +1,13 @@
 #include"../include/Graph.hpp"
 #include"../include/utils.hpp"
+#include"../include/heap.hpp"
+
+Graph::~Graph() {
+    movies.destroyValues(movies.root);
+    actors.destroyValues(actors.root);
+    directors.destroyValues(directors.root);
+    category.destroyValues(category.root);
+}
 
 Genre<Movie*>* Graph::add_category(string category) {
     Genre<Movie*>* found = find_category(category);
@@ -86,15 +94,65 @@ Movie* Graph::search_by_genre(string title) {
 }
 
 LinkedList<Movie*>* Graph::recommend_movies(string title) {
-    
+    LinkedList<Movie*> *mov = movies.search(title);
+
+    Movie *node = select_from_list<Movie*>(mov);
+    delete mov;
+
+    if (node) {
+        int count = 0, index;
+        auto genre = node->category.start;
+        LinkedList<Movie*> *list = new LinkedList<Movie*>;
+        
+        while (genre)
+        {
+            count += genre->data->list.length;
+            genre = genre->next;
+        }
+
+        MaxHeap<Movie*> *heap = new MaxHeap<Movie*>(count);
+
+        genre = node->category.start;
+
+        while (genre)
+        {   
+            auto movie = genre->data->list.start;
+
+            while(movie) {
+                if (title.compare(movie->data->name.data()) != 0) {
+                    int index = heap->find_value(movie->data);
+
+                    if (index == -1) {
+                        heap->insert(1, movie->data);
+                    } else {
+                        heap->update_priority(index, heap->data[index]->priority + 1);
+                    }
+                }
+                movie = movie->next;
+            }
+            genre = genre->next;
+        }
+
+        for (int i = 0; i < 5; i++) {
+            list->insert(heap->data[i]->data);
+        }
+
+        cout << "Similar movies: ";
+        list->printList();
+        delete list;
+    }
+
+    return NULL;
 }
 
 void Graph::printMovieDetails(Movie* movie)
 {
+    cout << "\033[2J\033[1;1H";
+    cout << "#### MOVIE DETAILS #### " << endl;
     cout << "Title: " << movie->name << endl;
     cout << "Type: " << movie->type << endl;
     cout << "Directed by: ";
-    movie->directors.printList();  cout << endl;
+    movie->directors.printList();
     cout << "Actors: ";
     movie->actors.printList();
     cout << "Release year: " << movie->release_year << endl;
