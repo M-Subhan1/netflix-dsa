@@ -94,6 +94,21 @@ Movie* Graph::search_by_genre(string title) {
     }
 }
 
+void Graph::print_directors_by_genre(string title) {
+    Genre<Movie*> *genre = category.search(title);
+
+    if (!genre) {
+        cout << "No matches!" << endl;
+    } else {
+        auto node = genre->list.start;
+        while (node)
+        {   
+            node->data->directors.printList();
+            node = node->next;
+        }
+    }
+}
+
 LinkedList<Movie*>* Graph::recommend_movies(string title) {
     LinkedList<Movie*> *mov = movies.search(title);
 

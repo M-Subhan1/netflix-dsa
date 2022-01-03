@@ -11,12 +11,15 @@ void displayMenu()
     cout << endl;
     cout << " 1. Search movie by title: " << endl;
     cout << " 2. Search movies by genre: " << endl;
-    cout << " 3. List movie by actor: " << endl;
-    cout << " 4. List movie by director: " << endl;
+    cout << " 3. List movies by actor: " << endl;
+    cout << " 4. List movies by director: " << endl;
     cout << " 5. Add to playlist: " << endl;
     cout << " 6. Show my playlist: " << endl;
     cout << " 7. Recommend me something to watch: " << endl;
-    cout << " 8. Show co-actors of an actor: " << endl;
+    cout << " 8. Recommend based on recent playlist entry: " << endl;
+    cout << " 9. Show co-actors of an actor: " << endl;
+    cout << " 10. Print directors with movies for a certain genre: " << endl;
+    cout << " 11. Check if two actors are co-actors: " << endl;
     cout << "-1. Exit" << endl;
 }
 
@@ -57,7 +60,7 @@ int main ()
             continue;
         }
 
-       else if (userSelect == 3)
+        else if (userSelect == 3)
         {
             cout << "Enter the name of the actor: ";
             cin.ignore();
@@ -71,7 +74,7 @@ int main ()
             continue;
         }
 
-       else if (userSelect == 4)
+        else if (userSelect == 4)
         {
             cout << "Enter the name of the director: ";
             cin.ignore();
@@ -119,9 +122,22 @@ int main ()
             getline(cin, input);
             graph->recommend_movies(input);
             continue;
+        }  
+        
+        else if (userSelect == 8)
+        {   
+            auto node = p1.start;
+
+            if (node && node->data) {
+                graph->recommend_movies(node->data->name);
+            } else {
+                cout << "Playlist empty" << endl;
+            }
+
+            continue;
         }
 
-        else if (userSelect == 8)
+        else if (userSelect == 9)
         {
            cout << "Enter the name of the actor to find their co-actors: ";
            cin.ignore();
@@ -140,6 +156,42 @@ int main ()
            }
 
            continue;
+        }
+
+        else if (userSelect == 10) {
+            cout << "Genre: " << endl;
+            cin.ignore();
+            getline(cin, userInput);
+            graph->print_directors_by_genre(userInput);
+        } 
+
+        else if (userSelect == 11) {
+            string actor2;
+
+            cout << "Actor 1: ";
+            cin.ignore();
+            getline(cin, userInput);
+            Actor<Movie*> *act = graph->search_by_actor(userInput);
+
+            cout << "Actor 2: ";
+            cin.ignore();
+            getline(cin, userInput);
+            Actor<Movie*> *act2 = graph->search_by_actor(userInput);
+
+            auto node = act->movie_list.start;
+            bool found = false;
+            while (node)
+            {
+                if (node->data->actors.search(act2)) {
+                    found = true;
+                    break;
+                }
+
+                node = node->next;
+            }
+
+            if (found) cout << "Yes" <<endl;
+            else cout << "No" << endl;
         }
 
         else if (userSelect == -1) {
