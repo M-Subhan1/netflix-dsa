@@ -148,16 +148,3 @@ LinkedList<Movie*>* Graph::recommend_movies(string title) {
     return NULL;
 }
 
-void Graph::printMovieDetails(Movie* movie)
-{
-    cout << "\033[2J\033[1;1H";
-    cout << "#### MOVIE DETAILS #### " << endl;
-    cout << "Title: " << movie->name << endl;
-    cout << "Type: " << movie->type << endl;
-    cout << "Directed by: ";
-    movie->directors.printList();
-    cout << "Actors: ";
-    movie->actors.printList();
-    cout << "Release year: " << movie->release_year << endl;
-    cout << "Description: " << movie->description << endl;
-}

@@ -15,9 +15,8 @@ Graph* get_graph () {
     // LinkedList<Movie*> *movies = new LinkedList<Movie*>;
     Graph *graph = new Graph;
     string cast, genre, director;
-    int x = 0;
 
-    while (true && x < 500) {
+    while (true) {
         Movie *temp = new Movie;
         if (!in.read_row(temp->show_id, temp->type, temp->name, director, cast, temp->country, temp->date_added, temp->release_year, temp->rating, temp->duration, genre, temp->description)) {
             delete temp;
@@ -27,7 +26,6 @@ Graph* get_graph () {
         parse_genre(genre, temp, graph);
         parse_actor(cast, temp, graph);
         parse_directors(director, temp, graph);
-        x++;
     }
 
     return graph;
@@ -98,4 +96,18 @@ void parse_directors(string str, Movie* movie, Graph *graph)
         director->movie_list.insert(movie); //insertion in list of movies stored in director object
         movie->directors.insert(director);
     }
+}
+
+void printMovieDetails(Movie* movie)
+{
+    cout << "\033[2J\033[1;1H";
+    cout << "#### MOVIE DETAILS #### " << endl;
+    cout << "Title: " << movie->name << endl;
+    cout << "Type: " << movie->type << endl;
+    cout << "Directed by: ";
+    movie->directors.printList();
+    cout << "Actors: ";
+    movie->actors.printList();
+    cout << "Release year: " << movie->release_year << endl;
+    cout << "Description: " << movie->description << endl;
 }

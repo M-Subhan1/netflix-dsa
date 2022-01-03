@@ -50,7 +50,7 @@ int main ()
 
             Movie* gen = graph->search_by_genre(userInput);
             if (gen) {
-                cout << gen->name;
+                printMovieDetails(gen);
                 cout << endl;
             } else cout << "No matches!" << endl;
 

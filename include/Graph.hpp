@@ -30,7 +30,6 @@ public:
     Movie* search_by_title(string);
     Movie* search_by_genre(string title);
     LinkedList<Movie*>* recommend_movies(string title);
-    void printMovieDetails(Movie* movie);
 };
 
 #endif

@@ -51,5 +51,6 @@ template <class T> T select_from_list (LinkedList<T> *list) {
         return curr->data;
     }
 }
+void printMovieDetails(Movie* movie);
 
 #endif
