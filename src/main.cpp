@@ -20,12 +20,10 @@ void displayMenu()
     cout << "-1. Exit" << endl;
 }
 
-//recommendation system
-
 int main () 
 {
     Graph *graph = get_graph();
-    Playlist<string> p1;
+    Playlist<Movie*> p1;
 
     while(true){
         string userInput;
@@ -88,8 +86,19 @@ int main ()
             cout << "Enter the name of the movie you would like to put in your playlist: ";
             cin.ignore();
             getline(cin, userInput);
-            p1.enqueue(userInput);
+
+            LinkedList<Movie*> *list = graph->movies.search(userInput);
+
+            if (list) {
+                Movie* movie = select_from_list<Movie*>(list);
+                p1.enqueue(movie);
+            } else {
+                cout << "No such movie found!!" << endl;
+            }
+
             cout << endl;
+
+            delete list;
             continue;
         }
 
@@ -105,7 +114,9 @@ int main ()
         {   
             string input;
             cout << "Enter a movie to find similar movies: ";
-            cin >> input;
+
+            cin.ignore();
+            getline(cin, input);
             graph->recommend_movies(input);
             continue;
         }
@@ -123,7 +134,7 @@ int main ()
                // update printing
                 while (curr)
                 {
-                    curr->data->actors.printList(); // This does not return unique names yet. Add uniqueness in linked list's function directly?
+                    curr->data->actors.printList(act->name); // This does not return unique names yet. Add uniqueness in linked list's function directly?
                     curr = curr -> next;
                 }
            }

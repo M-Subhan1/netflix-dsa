@@ -20,6 +20,7 @@ public:
 	int length;
 	void insert(T);
 	void printList();
+	void printList(string);
 	void destroyData();
 	bool search(T value);
     // address of the node containing the searched value in alist.If it is not
@@ -86,6 +87,18 @@ template <class T> void LinkedList<T>::printList() {
 	while (node)
     {
 		cout << node->data->name << ", ";
+		node = node->next;
+	}
+	cout << endl;
+}
+
+template <class T> void LinkedList<T>::printList(string input) {
+	ListNode<T> *node = start;
+	while (node)
+    {	
+		if (node->data->name != input) 
+			cout << node->data->name << ", ";
+		
 		node = node->next;
 	}
 	cout << endl;

@@ -19,7 +19,7 @@ template <class T> T select_from_list (LinkedList<T> *list) {
     int index = 1;
 
     while(true) {
-        cout << "Choose an option (-1 to exit): " << endl;
+        cout << "Choose an option (-1 to exit, 0 to view more): " << endl;
         int list_number = 0;
 
         while (list_number < 10 && curr)

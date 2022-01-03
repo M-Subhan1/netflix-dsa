@@ -51,7 +51,7 @@ template <class T> void Playlist<T>::printList() {
 	PlaylistNode<T> *node = start;
 	cout << "List: ";
 	while (node) {
-		cout << node->data << ", ";
+		cout << node->data->name << ", ";
 		node = node->next;
 	}
 	cout << endl;

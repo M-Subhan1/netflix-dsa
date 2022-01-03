@@ -75,11 +75,12 @@ Actor<Movie*>* Graph::search_by_actor(string name) {
 
 Movie* Graph::search_by_title(string title) {
     LinkedList<Movie*> *list = movies.search(title);
+
     Movie *movie = select_from_list<Movie*>(list);
-    delete list;
     if (movie) {
         printMovieDetails(movie);
-    }
+    } else cout << "No matches!!" << endl;
+    delete list;
     return NULL;
 }
 
@@ -134,7 +135,9 @@ LinkedList<Movie*>* Graph::recommend_movies(string title) {
         }
 
         for (int i = 0; i < 5; i++) {
-            list->insert(heap->data[i]->data);
+            auto temp = heap->pop();
+            list->insert(temp->data);
+            delete temp;
         }
 
         cout << "Similar movies: ";
