@@ -24,7 +24,8 @@
     "sstream": "cpp",
     "streambuf": "cpp",
     "typeindex": "cpp",
-    "typeinfo": "cpp"
+    "typeinfo": "cpp",
+    "new": "cpp"
   },
   "C_Cpp.dimInactiveRegions": false
 }

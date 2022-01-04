@@ -55,21 +55,24 @@ Director<Movie*> *Graph::add_director(string title) {
 
 Movie* Graph::search_by_director(string name) {
     LinkedList<Director<Movie*>*> *list = directors.search(name);
-    list->printList();
+    
     Director<Movie*> *director = select_from_list<Director<Movie*>*>(list);
-    delete list;
 
-    if (director) {
-        director->movie_list.printList();
-    }
+    if (director) director->movie_list.printList();
+    else cout << "No matches!!" <<endl;
+
+    if (list) delete list;
     return NULL;
 }
 
 Actor<Movie*>* Graph::search_by_actor(string name) {
     LinkedList<Actor<Movie*>*> *list = actors.search(name);
     Actor<Movie*> *actor = select_from_list<Actor<Movie*>*>(list);
-    delete list;
+    
+    if (list) delete list;
     if (actor) return actor;
+    else cout << "No matches!!" <<endl;
+
     return NULL;
 }
 
@@ -80,7 +83,9 @@ Movie* Graph::search_by_title(string title) {
     if (movie) {
         printMovieDetails(movie);
     } else cout << "No matches!!" << endl;
-    delete list;
+
+    if (list) delete list;
+
     return NULL;
 }
 
@@ -157,6 +162,8 @@ LinkedList<Movie*>* Graph::recommend_movies(string title) {
 
         cout << "Similar movies: ";
         list->printList();
+        
+        delete heap;
         delete list;
     }
 
