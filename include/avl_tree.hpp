@@ -134,7 +134,7 @@ template <class K, class T> AVLNode<K, T>* AVL<K, T>::insert(K key, T data, AVLN
         return root;
     }
 
-    return rotate(curr);
+    return rotate(curr); // returns new sub-tree root
 };
 
 template <class K, class T> void AVL<K, T>::remove(K key) {
