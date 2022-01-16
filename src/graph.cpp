@@ -29,7 +29,6 @@ Genre<Movie*>* Graph::find_category(string category) {
     return NULL;
 }
 
-// Time Complexity : m Logn
 void Graph::add_movie(Movie *movie) {
     this->movies.insert(movie->name, movie); // insert into movies trie
 }

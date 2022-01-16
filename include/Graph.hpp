@@ -41,7 +41,7 @@ public:
     Movie* search_by_title(string); // O(m + n) where m = length of string, n = nodes in the sub tree  of last node (allows recommendation / prefix searching)
     Movie* search_by_genre(string title); // O(m + n) where m = length of string, n = nodes in the sub tree  of last node (allows recommendation / prefix searching)
     LinkedList<Movie*>* recommend_movies(string title); // O (n^2)
-    void print_directors_by_genre(string title); // O(n*m), where n = number of movies, m = number of directors
+    void print_directors_by_genre(string title); // O(log (g) * m * d(i)), where g = number of genre, d(i) = number of directors for i-th movie, m = number of movies for the genre
 };
 
 #endif
