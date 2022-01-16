@@ -8,8 +8,8 @@ using namespace std;
 
 template <class T> class Genre {
 public:
-    string name;
-    LinkedList<T> list; //list of movies
+    string name; // name
+    LinkedList<T> list; //list of movies in the genre
     Genre(string name) {
         this->name = name;
     }

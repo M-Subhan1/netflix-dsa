@@ -9,9 +9,9 @@
 struct Movie {
     std::string show_id, type, name, country, date_added, release_year, duration, description, rating;
     //storing in graphs
-    LinkedList<Genre<Movie*>*> category;
-    LinkedList<Actor<Movie*>*> actors;
-    LinkedList<Director<Movie*>*> directors;
+    LinkedList<Genre<Movie*>*> category; // stores a list of genre
+    LinkedList<Actor<Movie*>*> actors; // list of cast
+    LinkedList<Director<Movie*>*> directors; // directed by
     //storing movies
 };
 

@@ -7,12 +7,12 @@
 #include"actor.hpp"
 #include "../include/director.hpp"
 
-Graph* get_graph();
-void parse_genre(string genre, Movie*, Graph *); 
-void parse_actor(string cast, Movie*, Graph *);
-void parse_directors(string director, Movie*, Graph *);
+Graph* get_graph(); // populate and retrieve graph
+void parse_genre(string genre, Movie*, Graph *); // parse genre and link with movies
+void parse_actor(string cast, Movie*, Graph *); // parse actors and link with movies
+void parse_directors(string director, Movie*, Graph *); // parse directors and link with movies
 
-template <class T> T select_from_list (LinkedList<T> *list) {
+template <class T> T select_from_list (LinkedList<T> *list) { // reusable UI to select from a list
     if (!list || !list->start) return NULL;
     ListNode<T> *curr = list->start;
     int input = -1;
@@ -51,6 +51,6 @@ template <class T> T select_from_list (LinkedList<T> *list) {
         return curr->data;
     }
 }
-void printMovieDetails(Movie* movie);
+void printMovieDetails(Movie* movie); // prints a movie
 
 #endif

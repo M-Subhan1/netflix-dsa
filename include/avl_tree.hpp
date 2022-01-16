@@ -7,13 +7,19 @@
 
 using namespace std;
 
+// template AVL that stores key value pairs
+// Key template passed in as K, Data stored passed in as T
+
+// Stores AVL Nodes
 template <class K, class T> class AVLNode {
 public:
-    AVLNode<K,T> *lchild;
-    AVLNode<K,T> *rchild;
-	K key;
-    T data;
-    int height;
+    AVLNode<K,T> *lchild; // left_child of the node
+    AVLNode<K,T> *rchild; // right_child of the node
+	K key; // key (used in storing and retrieving data)
+    T data; // data
+    int height; // height of the node
+    
+    // construtor
     AVLNode(K key, T data) {
         lchild = rchild = NULL;
         this->data = data;
@@ -22,16 +28,17 @@ public:
     }
 };
 
+// Template AVL Tree
 template <class K, class T> class AVL {
 public:
-    AVLNode<K,T> *root;
-    AVLNode<K,T> *pLoc;
-    AVLNode<K,T> *loc;
-    AVL();
-    ~AVL();
+    AVLNode<K,T> *root; // stores the root node
+    AVLNode<K,T> *pLoc; // used in searching and update
+    AVLNode<K,T> *loc; // used in searching and update
+    AVL(); // constructor
+    ~AVL(); //destrcutor
     T search(K); // searches for a value and updated pLoc and loc
     void insert(K, T); // inserts new nodes
-    void remove(K);
+    void remove(K); // removes the node against Key K
     void preOrderTraversal(AVLNode<K,T> *); // preorder traversla
     void inOrderTraversal(AVLNode<K,T> *); // inorder traversal
     void postOrderTraversal(AVLNode<K,T> *); // postorder traversal
@@ -45,14 +52,14 @@ private:
     int* tree_summary(AVLNode<K,T> *); // prints summary of the tree
     AVLNode<K,T>* insert(K, T, AVLNode<K,T> *, AVLNode<K,T> *);
     AVLNode<K,T>* remove(K, AVLNode<K,T> *, AVLNode<K,T> *);
-    void remove_node();
+    void remove_node(); // overloaded method to remove the node
     void destroyAVL(AVLNode<K,T>*); // main logic for destroying AVL
     void searchHelper(K, AVLNode<K,T>*, AVLNode<K,T>*); // search helper with main search logic
-    AVLNode<K,T>* rrotation(AVLNode<K,T>*);
-    AVLNode<K,T>* lrotation(AVLNode<K,T>*);
-    AVLNode<K,T>* rlrotation(AVLNode<K,T>*);
-    AVLNode<K,T>* lrrotation(AVLNode<K,T>*);
-    int balance_factor(AVLNode<K,T>*);
+    AVLNode<K,T>* rrotation(AVLNode<K,T>*); // right rotate the tree about a node
+    AVLNode<K,T>* lrotation(AVLNode<K,T>*); // left rotates the tree about a node
+    AVLNode<K,T>* rlrotation(AVLNode<K,T>*); // rl rotates the tree
+    AVLNode<K,T>* lrrotation(AVLNode<K,T>*); // lr rotates a tree
+    int balance_factor(AVLNode<K,T>*); // calculates vbalance factor of a node
 };
 
 template <class K, class T> AVL<K, T>::AVL() {
@@ -81,8 +88,9 @@ template <class K, class T> T AVL<K, T>::search(K key) {
     // init pointers with null and call search helper (recursive)
     loc = NULL;
     pLoc = NULL;
+
     searchHelper(key, NULL, root);
-	if (!loc) return NULL;
+	if (!loc) return NULL; // if no data, return NULL
 	return loc->data;
 }
 
@@ -101,8 +109,8 @@ template <class K, class T> void AVL<K, T>::searchHelper(K key, AVLNode<K, T> *p
     }
 }
 
-template <class K, class T> void AVL<K, T>::insert(K key, T data) {
-    insert(key, data, NULL, root);
+template <class K, class T> void AVL<K, T>::insert(K key, T data) { // provides abstraction for the user
+    insert(key, data, NULL, root); // calls overloaded insert function
 }
 
 template <class K, class T> AVLNode<K, T>* AVL<K, T>::insert(K key, T data, AVLNode<K, T> *prev, AVLNode<K, T> *curr) {
@@ -120,6 +128,7 @@ template <class K, class T> AVLNode<K, T>* AVL<K, T>::insert(K key, T data, AVLN
     if (key < curr->key) curr->lchild = insert(key, data, curr, curr->lchild);
     else if (key > curr->key) curr->rchild = insert(key, data, curr, curr->rchild);
     
+    // rotates the tree after insertion
     if (curr == root)  { 
         root = rotate(curr); 
         return root;

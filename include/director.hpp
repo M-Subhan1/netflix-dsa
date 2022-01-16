@@ -7,8 +7,8 @@ using namespace std;
 
 template <class T> class Director {
 public:
-    std::string name;
-    LinkedList<T> movie_list;
+    std::string name; // name 
+    LinkedList<T> movie_list; // list of movies directed
 
     Director(string name) {
         this->name = name;
