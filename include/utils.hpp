@@ -12,7 +12,7 @@ void parse_genre(string genre, Movie*, Graph *); // parse genre and link with mo
 void parse_actor(string cast, Movie*, Graph *); // parse actors and link with movies
 void parse_directors(string director, Movie*, Graph *); // parse directors and link with movies
 
-template <class T> T select_from_list (LinkedList<T> *list) { // reusable UI to select from a list
+template <class T> T select_from_list (LinkedList<T> *list) { // reusable UI to select an item from a list
     if (!list || !list->start) return NULL;
     ListNode<T> *curr = list->start;
     int input = -1;
